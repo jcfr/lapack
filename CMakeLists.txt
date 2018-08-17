@@ -42,6 +42,15 @@ endif()
 # By default static library
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
+# When building lapack as static libraries, build position independent code:
+# * This is required when building shared libraries linking against the
+#   lapack static libraries.
+# * If needed (performance, package for linux distribution, ...), it may still
+#   be explicitly disabled.
+if(NOT DEFINED CMAKE_POSITION_INDEPENDENT_CODE AND NOT BUILD_SHARED_LIBS)
+  set(CMAKE_POSITION_INDEPENDENT_CODE 1)
+endif()
+
 include(GNUInstallDirs)
 
 # Updated OSX RPATH settings
